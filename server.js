@@ -10,9 +10,12 @@ server.use(middlewares)
 
 // For mocking the POST request, POST request won't make any changes to the DB
 server.use((req, res, next) => {
-    if (req.path === '/') return next()
-    router.db.setState(clone(data))
-    next()
+    console.log({env: process.env, node: process.env.NODE_ENV})
+    if (process.env.NODE_ENV === 'production') {
+        if (req.path === '/') return next()
+        router.db.setState(clone(data))
+        next()
+    }
 })
 
 server.use(router)
