@@ -1,4 +1,3 @@
-// See https://github.com/typicode/json-server#module
 const jsonServer = require('json-server')
 const clone = require('clone')
 const data = require('./db.json')
@@ -8,14 +7,11 @@ const middlewares = jsonServer.defaults()
 
 server.use(middlewares)
 
-// For mocking the POST request, POST request won't make any changes to the DB
 server.use((req, res, next) => {
-    console.log({env: process.env, node: process.env.NODE_ENV})
-    if (process.env.NODE_ENV === 'production') {
-        if (req.path === '/') return next()
+    // The request won't modify the db.json in production environment
+    if (req.path !== '/' && process.env.NODE_ENV === 'production')
         router.db.setState(clone(data))
-        next()
-    }
+    next()
 })
 
 server.use(router)

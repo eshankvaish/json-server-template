@@ -5,7 +5,8 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js"
+    "dev": "NODE_ENV=development node server.js",
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "clone": "^2.1.2",
